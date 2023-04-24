@@ -1,7 +1,7 @@
 # 第１回Firebase練習問題
 
 ## 問１
-アカウント作成、ログインのそれぞれのボタンを押したときに、バリデーションするようにしてください。
+FirestoreServiceクラスのgetUsersメソッドを実装してください。getUsersでは、
 
 ## 問２
 入力したユーザーIDをキー、パスワードを値としてSharedPreferenceに保存するsetAccountPref関数を完成させてください。
