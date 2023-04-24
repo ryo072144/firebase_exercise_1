@@ -1,10 +1,10 @@
 # 第１回Firebase練習問題
 
 ## 問１
-FirestoreServiceクラスのgetUsersメソッドを実装してください。getUsersでは、
+main関数を編集して、Firebaseの初期化をしてください。
 
 ## 問２
-入力したユーザーIDをキー、パスワードを値としてSharedPreferenceに保存するsetAccountPref関数を完成させてください。
+FirestoreServiceクラスのgetUsersメソッドを実装してください。getUsersでは、ユーザの一覧を取得します。
 
 ## 問３
 SharedPreferenceに保存されているパスワードの内、入力したIDから、対応するパスワードを取得して返すgetPasswordByID関数を完成させてください。対応するパスワードがない場合は、nullを返してください。
