@@ -1,69 +1,114 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_exercise_1/constants/text_styles.dart';
+import 'package:firebase_exercise_1/services/firestore_service.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class FirestorePractice extends StatefulWidget {
+  const FirestorePractice({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  FirestorePracticeState createState() => FirestorePracticeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _nameEditingController = TextEditingController();
-  final TextEditingController _idEditingController = TextEditingController();
+class FirestorePracticeState extends State<FirestorePractice> {
 
-  String name = '';
-  int age = 0;
+  final FirestoreService _firestoreService = FirestoreService();
+  late Future<QuerySnapshot> _usersFuture;
+  late String _username;
 
-  void setProfile() async{
+  Future<QuerySnapshot> _getUsers(){
+    return _firestoreService.getUsers();
   }
 
-  Future<DocumentSnapshot> getProfile()async{
-    return FirebaseFirestore.instance.collection('users').doc(_idEditingController.text).get();
+  Future<void> _addUser() async {
+    // tryの中でエラーが発生したら、catchの中が実行される。
+    try {
+      await _firestoreService.addUser(_username);
+      if(!mounted)return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('ユーザーを追加しました'))
+      );
+    } catch (e) {
+      if(!mounted)return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('エラーが発生しました'))
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _usersFuture = _getUsers();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance.collection('users').doc(_idEditingController.text).get(),
-          builder: (context, snapshot) {
-            if(snapshot.hasData&&snapshot.data!.exists){
-              return Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width/2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextField(
-                        controller: _idEditingController,
-                        decoration: const InputDecoration(labelText: 'ID', border: OutlineInputBorder()),
-                      ),
-                      const SizedBox(height: 20,),
-                      TextField(
-                        controller: _nameEditingController,
-                        decoration: const InputDecoration(labelText: '名前', border: OutlineInputBorder()),
-                      ),
-                      const SizedBox(height: 20,),
-                      ElevatedButton(
-                        onPressed: (){
-                          setProfile();
-                        },
-                        style: ButtonStyle(
-                            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                        ),
-                        child: const Text('データ更新'),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }else{
-              return const Center(child: CircularProgressIndicator(),);
-            }
-          }
+      appBar: AppBar(
+        title: const Text('Firestore Practice', style: AppTextStyles.title,),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  _username = value;
+                });
+              },
+              decoration: const InputDecoration(hintText: 'ユーザー名を入力してください'),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                _addUser();
+              },
+              child: const Text('ユーザーを追加'),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _usersFuture = _getUsers();
+                });
+              },
+              child: const Text('リロード'),
+            ),
+            const SizedBox(height: 16.0),
+            const Text('ユーザー一覧', style: TextStyle(fontSize: 18.0)),
+            const SizedBox(height: 16.0),
+            Flexible(
+              child: FutureBuilder<QuerySnapshot>(
+                future: _usersFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('エラーが発生しました', style: AppTextStyles.headline.copyWith(color: Colors.red),);
+                  }
+                  if (snapshot.hasData) {
+                    final users = snapshot.data!.docs;
+                    return ListView.builder(
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        final user = users[index].data() as Map<String, dynamic>;
+                        return ListTile(
+                          title: Text(user['name']),
+                        );
+                      },
+                    );
+                  }else{
+                    return const SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: CircularProgressIndicator()
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
