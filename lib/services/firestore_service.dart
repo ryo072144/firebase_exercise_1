@@ -8,6 +8,6 @@ class FirestoreService {
   }
 
   Future<void> addUser(String name) async {
-    
+    await _firestore.collection('users').add({'name': name});
   }
 }
