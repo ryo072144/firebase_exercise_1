@@ -7,10 +7,10 @@ main関数を編集して、Firebaseの初期化をしてください。
 FirestoreServiceクラスのgetUsersメソッドを実装してください。getUsersでは、usersコレクションのドキュメントを全て取得します。
 
 ## 問３
-SharedPreferenceに保存されているパスワードの内、入力したIDから、対応するパスワードを取得して返すgetPasswordByID関数を完成させてください。対応するパスワードがない場合は、nullを返してください。
+FirestorePracticeStateの_addUserを完成させてください。_addUserでは、Firestoreに入力された名前のユーザーを追加します。
 
 ## 問４
-ホームページのAppBarの右側のポップアップメニューで、選択した色がAppBarの色に反映されるようにしてください。また、アプリを閉じても変更が保存されるようにしてください。
+リロードボタンを実装してください。リロードボタンを押すと、ユーザー一覧が最新の状態を反映します。
 
 ## 解答解説動画
 https://nk-free.com/mugi/videos/flutter_exercise_5.mp4
