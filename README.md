@@ -7,7 +7,7 @@ main関数を編集して、Firebaseの初期化をしてください。
 FirestoreServiceクラスのgetUsersメソッドを実装してください。getUsersでは、usersコレクションのドキュメントを全て取得します。
 
 ## 問３
-FirestorePracticeStateの_addUserを完成させてください。_addUserでは、TExtFieldに入力された名前のユーザーを追加します。
+FirestorePracticeStateの_addUserを完成させてください。_addUserでは、入力された名前のユーザーを追加します。
 
 ## 問４
 リロードボタンを実装してください。リロードボタンを押すと、ユーザー一覧が最新の状態を反映します。
