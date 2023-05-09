@@ -13,4 +13,4 @@ FirestorePracticeStateの_addUserを完成させてください。_addUserでは
 リロードボタンを実装してください。リロードボタンを押すと、ユーザー一覧が最新の状態を反映します。
 
 ## 解答解説動画
-https://nk-free.com/mugi/videos/flutter_exercise_5.mp4
+https://nk-free.com/mugi/videos/firebase_exercise_1.mp4
