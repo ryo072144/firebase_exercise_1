@@ -69,9 +69,6 @@ class FirestorePracticeState extends State<FirestorePractice> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  _usersFuture = _getUsers();
-                });
               },
               child: const Text('リロード'),
             ),
