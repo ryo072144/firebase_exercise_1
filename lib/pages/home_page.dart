@@ -23,7 +23,6 @@ class FirestorePracticeState extends State<FirestorePractice> {
   Future<void> _addUser() async {
     // tryの中でエラーが発生したら、catchの中が実行される。
     try {
-      await _firestoreService.addUser(_username);
       if(!mounted)return;
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('ユーザーを追加しました'))
